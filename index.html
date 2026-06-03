@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniform Guidance Watch — UniformGuidanceWatch</title>
+<meta name="description" content="The OMB's proposed rewrite of 2 CFR Part 200 converges with a NIST grants system migration and a delayed BEAD policy notice on October 1, 2026. This tool maps what that means for $42.5 billion in broadband funding.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0b;
+    --bg2: #141412;
+    --bg3: #1c1c19;
+    --border: #2a2a26;
+    --text: #e8e6df;
+    --text2: #9a9890;
+    --text3: #5a5854;
+    --red: #c8372d;
+    --red-dim: #7a2018;
+    --red-glow: rgba(200,55,45,0.12);
+    --amber: #c47d1a;
+    --amber-dim: #7a4e0f;
+    --amber-glow: rgba(196,125,26,0.12);
+    --blue: #3a6ea8;
+    --blue-dim: #234466;
+    --blue-glow: rgba(58,110,168,0.12);
+    --green: #4a8c5c;
+    --contested: #8a6a2a;
+    --clear-grant: #2a5c3a;
+    --clear-new: #7a2018;
+    --accent: #c8372d;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+  .container--wide { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+  .site-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .site-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .alert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--red-glow);
+    border: 1px solid var(--red-dim);
+    color: var(--red);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .alert-dot {
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    max-width: 800px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--text2);
+  }
+
+  .lede {
+    font-size: 1.1rem;
+    color: var(--text2);
+    max-width: 660px;
+    margin-bottom: 2rem;
+    line-height: 1.75;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  .meta-item strong { color: var(--text2); }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  h2 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  p { margin-bottom: 1rem; color: var(--text2); }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--text); border-bottom: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s; }
+  a:hover { border-color: var(--text2); }
+
+  strong { font-weight: 600; color: var(--text); }
+
+  /* ── CONVERGENCE TIMELINE ── */
+  .timeline-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tl-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .tl-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* SVG Timeline */
+  #convergence-svg { width: 100%; min-width: 600px; display: block; }
+
+  /* ── WHAT-IF PANEL ── */
+  .whatif-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .whatif-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toggles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .toggle-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .toggle-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.25rem;
+  }
+
+  .toggle-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .toggle-btn:hover { border-color: var(--text3); color: var(--text2); }
+  .toggle-btn.active { background: var(--bg); border-color: var(--text2); color: var(--text); }
+  .toggle-btn.active-red { background: var(--red-glow); border-color: var(--red-dim); color: var(--red); }
+  .toggle-btn.active-amber { background: var(--amber-glow); border-color: var(--amber-dim); color: var(--amber); }
+  .toggle-btn.active-blue { background: var(--blue-glow); border-color: var(--blue-dim); color: var(--blue); }
+
+  /* Consequence Grid */
+  .consequence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .consequence-cell {
+    background: var(--bg);
+    padding: 1rem;
+    transition: background 0.3s;
+  }
+
+  .cell-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.5rem;
+  }
+
+  .cell-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    transition: color 0.3s;
+  }
+
+  .cell-note {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+    transition: color 0.3s;
+  }
+
+  .status-safe { color: var(--green); }
+  .status-contested { color: var(--amber); }
+  .status-blocked { color: var(--red); }
+  .status-unknown { color: var(--text3); }
+
+  .cell-safe { background: rgba(74,140,92,0.05); }
+  .cell-contested { background: rgba(138,106,42,0.08); }
+  .cell-blocked { background: rgba(200,55,45,0.08); }
+
+  /* ── AMBIGUITY SPECTRUM ── */
+  .spectrum-table {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .spectrum-row {
+    background: var(--bg2);
+    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .spectrum-row.header-row {
+    background: var(--bg3);
+    padding: 0.6rem 1.25rem;
+  }
+
+  .spectrum-row-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.03em;
+  }
+
+  .spectrum-bar-wrap { position: relative; height: 24px; }
+
+  .spectrum-track {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--clear-grant) 0%, var(--contested) 50%, var(--clear-new) 100%);
+    border-radius: 2px;
+  }
+
+  .spectrum-marker {
+    position: absolute;
+    top: 50%; transform: translate(-50%, -50%);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--bg2);
+    transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
+    cursor: help;
+  }
+
+  .spectrum-marker.narrow { background: var(--red); }
+  .spectrum-marker.broad { background: var(--amber); }
+
+  .spectrum-legend-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .spectrum-interp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .spectrum-header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  /* Spectrum marker legend */
+  .marker-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .marker-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .marker-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--bg2);
+    flex-shrink: 0;
+  }
+
+  /* ── EXPLAINER CARDS ── */
+  .explainer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  .explainer-card {
+    background: var(--bg2);
+    padding: 1.5rem;
+  }
+
+  .card-track {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    display: inline-block;
+  }
+
+  .card-track.red { color: var(--red); background: var(--red-glow); border: 1px solid var(--red-dim); }
+  .card-track.amber { color: var(--amber); background: var(--amber-glow); border: 1px solid var(--amber-dim); }
+  .card-track.blue { color: var(--blue); background: var(--blue-glow); border: 1px solid var(--blue-dim); }
+
+  .card-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .card-body { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .card-body p { margin-bottom: 0.75rem; font-size: 14px; }
+
+  /* ── PROVISIONS TABLE ── */
+  .provisions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .provision-item {
+    background: var(--bg2);
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .provision-severity {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .sev-critical { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .sev-high { background: var(--amber); }
+
+  .provision-content {}
+
+  .provision-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.03em;
+  }
+
+  .provision-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .provision-ref {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  /* ── BLACKOUT VISUAL ── */
+  .blackout-diagram {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .blackout-tracks { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem; }
+
+  .bt-row { display: grid; grid-template-columns: 140px 1fr; gap: 1rem; align-items: center; }
+
+  .bt-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+    text-align: right;
+  }
+
+  .bt-bar { position: relative; height: 28px; background: var(--bg3); border: 1px solid var(--border); }
+
+  .bt-fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    transition: all 0.4s;
+  }
+
+  .bt-divider {
+    position: absolute;
+    top: -12px; bottom: -12px;
+    width: 2px;
+    background: var(--red);
+    opacity: 0.7;
+  }
+
+  .bt-divider-label {
+    position: absolute;
+    top: -22px;
+    transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--red);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .bt-bar-label {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--red-glow);
+    border: 1px solid var(--red-dim);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .cta-deadline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .cta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--red);
+    color: var(--text) !important;
+    border: none !important;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .cta-link:hover { opacity: 0.85; }
+
+  .cta-items {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--red-dim);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+    letter-spacing: 0.02em;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .cta-item-num { color: var(--red); flex-shrink: 0; }
+
+  /* ── SOURCES ── */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 1.5rem;
+  }
+
+  .source-item {
+    background: var(--bg2);
+    padding: 1rem 1.25rem;
+  }
+
+  .source-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.35rem;
+  }
+
+  .source-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text2) !important;
+    border-color: var(--border) !important;
+    display: block;
+    line-height: 1.4;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: fixed;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    pointer-events: none;
+    z-index: 9999;
+    max-width: 240px;
+    line-height: 1.5;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .spectrum-row { grid-template-columns: 1fr; }
+    .bt-row { grid-template-columns: 1fr; }
+    .bt-label { text-align: left; }
+    .provision-item { grid-template-columns: 20px 1fr; }
+    .provision-ref { display: none; }
+  }
+
+  /* Scroll fade-in */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-inner">
+    <div class="site-label">
+      <span>deuslexxmachina.github.io / UniformGuidanceWatch</span>
+    </div>
+    <div class="alert-badge">
+      <span class="alert-dot"></span>
+      Regulatory Alert — Comment Deadline July 13, 2026
+    </div>
+    <h1>Three clocks are running.<br><em>None of them know about the others.</em></h1>
+    <p class="lede">The OMB's proposed rewrite of 2 CFR Part 200 — the foundational rules governing every federal grant — converges with a NIST grants system migration and a still-missing BEAD policy notice on <strong>October 1, 2026</strong>. No coordination was required to produce this result. This tool maps what it means for $42.5 billion in broadband funding.</p>
+    <div class="meta-row">
+      <span class="meta-item">Published <strong>June 3, 2026</strong></span>
+      <span class="meta-item">Proposed rule <strong>May 29, 2026</strong></span>
+      <span class="meta-item">Comment deadline <strong>July 13, 2026</strong></span>
+      <span class="meta-item">Docket <strong>OMB-2026-0034</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- ── SECTION 1: CONVERGENCE TIMELINE ── -->
+<section id="timeline">
+  <div class="container--wide fade-in">
+    <div class="section-label"><span class="section-num">01</span> The Convergence</div>
+    <h2>Three independent processes. One deadline.</h2>
+    <p>Each track below operates on its own bureaucratic logic. The OMB rulemaking is a government-wide administrative reform. The NIST system migration is a Commerce Department IT modernization project. The BEAD 2RPN is a broadband-specific policy notice whose release date remains unknown. None of them required coordination to land in the same window.</p>
+
+    <div class="timeline-wrap">
+      <div class="timeline-header">
+        <span class="tl-title">Timeline — June 2026 through December 2026</span>
+        <div class="tl-legend">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>OMB Rule</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--amber)"></span>NIST Migration</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>BEAD 2RPN</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#444"></span>Blackout</span>
+        </div>
+      </div>
+      <svg id="convergence-svg" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet">
+        <!-- Background -->
+        <rect width="800" height="280" fill="#141412"/>
+
+        <!-- Month labels -->
+        <g font-family="IBM Plex Mono,monospace" font-size="9" fill="#5a5854" letter-spacing="1">
+          <text x="40" y="20">JUN</text>
+          <text x="145" y="20">JUL</text>
+          <text x="248" y="20">AUG</text>
+          <text x="350" y="20">SEP</text>
+          <text x="453" y="20">OCT</text>
+          <text x="558" y="20">NOV</text>
+          <text x="660" y="20">DEC</text>
+        </g>
+
+        <!-- Month grid lines -->
+        <g stroke="#1c1c19" stroke-width="1">
+          <line x1="40" y1="28" x2="40" y2="268"/>
+          <line x1="145" y1="28" x2="145" y2="268"/>
+          <line x1="248" y1="28" x2="248" y2="268"/>
+          <line x1="350" y1="28" x2="350" y2="268"/>
+          <line x1="453" y1="28" x2="453" y2="268"/>
+          <line x1="558" y1="28" x2="558" y2="268"/>
+          <line x1="660" y1="28" x2="660" y2="268"/>
+          <line x1="762" y1="28" x2="762" y2="268"/>
+        </g>
+
+        <!-- OCT 1 DIVIDER -->
+        <line x1="453" y1="28" x2="453" y2="268" stroke="#c8372d" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>
+        <text x="457" y="40" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c8372d" letter-spacing="0.5">OCT 1</text>
+        <text x="457" y="52" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7a2018">NEW FRAMEWORK</text>
+
+        <!-- ── TRACK A: OMB Rule ── -->
+        <text x="40" y="90" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c8372d" letter-spacing="1">TRACK A — OMB UNIFORM GUIDANCE</text>
+
+        <!-- Current (published May 29) -->
+        <rect x="40" y="98" width="103" height="18" fill="#7a2018" opacity="0.6" rx="1"/>
+        <text x="44" y="111" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c8372d">Comment period open</text>
+
+        <!-- Comment deadline Jul 13 -->
+        <circle cx="145" cy="107" r="4" fill="#c8372d"/>
+        <text x="149" y="99" font-family="IBM Plex Mono,monospace" font-size="8" fill="#c8372d">JUL 13</text>
+        <text x="149" y="109" font-family="IBM Plex Mono,monospace" font-size="8" fill="#9a9890">Comment close</text>
+
+        <!-- Review/finalization -->
+        <rect x="145" y="98" width="308" height="18" fill="#2a0f0d" rx="1"/>
+        <text x="240" y="111" font-family="IBM Plex Mono,monospace" font-size="9" fill="#5a2018">Review &amp; finalization (79 days)</text>
+
+        <!-- Effective Oct 1 -->
+        <rect x="453" y="98" width="309" height="18" fill="#c8372d" opacity="0.15" rx="1"/>
+        <text x="510" y="111" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c8372d">Rule in effect — new framework</text>
+
+        <!-- ── TRACK B: NIST Migration ── -->
+        <text x="40" y="155" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c47d1a" letter-spacing="1">TRACK B — NIST GEMS / eRA MIGRATION</text>
+
+        <!-- Pre-blackout -->
+        <rect x="40" y="163" width="340" height="18" fill="#7a4e0f" opacity="0.3" rx="1"/>
+        <text x="44" y="176" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c47d1a">Pre-migration / legacy system</text>
+
+        <!-- Blackout zone -->
+        <rect x="380" y="158" width="120" height="28" fill="#2a2a26" rx="1"/>
+        <rect x="380" y="158" width="120" height="28" fill="#c47d1a" opacity="0.08" rx="1"/>
+        <line x1="380" y1="158" x2="380" y2="186" stroke="#c47d1a" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="384" y="170" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c47d1a">BLACKOUT</text>
+        <text x="384" y="181" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7a4e0f">~4–6 weeks est.</text>
+
+        <!-- Go-live Oct -->
+        <circle cx="453" cy="172" r="5" fill="#c47d1a"/>
+        <text x="460" y="168" font-family="IBM Plex Mono,monospace" font-size="8" fill="#c47d1a">GO-LIVE</text>
+        <rect x="453" y="163" width="309" height="18" fill="#c47d1a" opacity="0.1" rx="1"/>
+        <text x="510" y="176" font-family="IBM Plex Mono,monospace" font-size="9" fill="#c47d1a">eRA operational — new system</text>
+
+        <!-- ── TRACK C: BEAD 2RPN ── -->
+        <text x="40" y="221" font-family="IBM Plex Mono,monospace" font-size="9" fill="#3a6ea8" letter-spacing="1">TRACK C — BEAD 2RPN / NONDEPLOYMENT AWARDS</text>
+
+        <!-- Unknown zone -->
+        <rect x="40" y="229" width="720" height="18" fill="#234466" opacity="0.2" rx="1"/>
+
+        <!-- Scenario A: before Oct 1 -->
+        <rect x="40" y="229" width="200" height="18" fill="#3a6ea8" opacity="0" id="rpn-before" rx="1"/>
+
+        <text x="44" y="242" font-family="IBM Plex Mono,monospace" font-size="9" fill="#3a6ea8" id="rpn-label">2RPN not yet published — date unknown</text>
+
+        <!-- Unknown marker -->
+        <g id="rpn-unknown-marker">
+          <line x1="180" y1="225" x2="180" y2="252" stroke="#3a6ea8" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          <text x="184" y="237" font-family="IBM Plex Mono,monospace" font-size="8" fill="#3a6ea8" opacity="0.5">? possible window</text>
+        </g>
+
+        <!-- Impact zone label -->
+        <text x="460" y="260" font-family="IBM Plex Mono,monospace" font-size="8" fill="#5a5854">Awards issued here → new framework applies</text>
+
+        <!-- Convergence annotation -->
+        <text x="350" y="275" font-family="IBM Plex Mono,monospace" font-size="8" fill="#5a5854" text-anchor="middle">All three tracks converge at this line →</text>
+      </svg>
+    </div>
+
+    <p style="font-size:13px; color:var(--text3);">The NIST blackout window is estimated based on NOAA's eRA implementation experience in FY2024. The actual blackout start date has not been publicly announced. The 2RPN publication date remains unknown as of June 3, 2026.</p>
+  </div>
+</section>
+
+<!-- ── SECTION 2: WHAT-IF ── -->
+<section id="whatif">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">02</span> What-If</div>
+    <h2>Adjust the variables. See the consequences.</h2>
+    <p>The three tracks interact differently depending on timing. Toggle the variables below to see how the consequence state changes for each category of BEAD activity.</p>
+
+    <div class="whatif-panel">
+      <div class="whatif-title">Interactive scenario model — adjust toggles to update consequence state</div>
+
+      <div class="toggles-grid">
+        <!-- Toggle 1: 2RPN timing -->
+        <div class="toggle-group">
+          <div class="toggle-label">2RPN publication</div>
+          <button class="toggle-btn active-blue" data-group="rpn" data-val="before" onclick="setToggle('rpn','before',this)">Before October 1</button>
+          <button class="toggle-btn" data-group="rpn" data-val="after" onclick="setToggle('rpn','after',this)">After October 1</button>
+          <button class="toggle-btn" data-group="rpn" data-val="unknown" onclick="setToggle('rpn','unknown',this)">Unknown / not yet issued</button>
+        </div>
+
+        <!-- Toggle 2: NIST blackout -->
+        <div class="toggle-group">
+          <div class="toggle-label">NIST blackout duration</div>
+          <button class="toggle-btn active-amber" data-group="blackout" data-val="2w" onclick="setToggle('blackout','2w',this)">~2 weeks</button>
+          <button class="toggle-btn" data-group="blackout" data-val="4w" onclick="setToggle('blackout','4w',this)">~4 weeks</button>
+          <button class="toggle-btn" data-group="blackout" data-val="6w" onclick="setToggle('blackout','6w',this)">~6 weeks (NOAA precedent)</button>
+        </div>
+
+        <!-- Toggle 3: Grandfathering -->
+        <div class="toggle-group">
+          <div class="toggle-label">OMB grandfathering interpretation</div>
+          <button class="toggle-btn" data-group="grandfather" data-val="broad" onclick="setToggle('grandfather','broad',this)">Broad — only truly new awards</button>
+          <button class="toggle-btn active-red" data-group="grandfather" data-val="narrow" onclick="setToggle('grandfather','narrow',this)">Narrow — amendments included</button>
+        </div>
+      </div>
+
+      <!-- Consequence Grid -->
+      <div class="consequence-grid" id="consequence-grid">
+        <div class="consequence-cell" id="cell-deploy">
+          <div class="cell-label">BEAD Deployment Awards</div>
+          <div class="cell-status" id="status-deploy">—</div>
+          <div class="cell-note" id="note-deploy">—</div>
+        </div>
+        <div class="consequence-cell" id="cell-fasa">
+          <div class="cell-label">FASA Subgrants</div>
+          <div class="cell-status" id="status-fasa">—</div>
+          <div class="cell-note" id="note-fasa">—</div>
+        </div>
+        <div class="consequence-cell" id="cell-nondeploy">
+          <div class="cell-label">Nondeployment Awards ($21B)</div>
+          <div class="cell-status" id="status-nondeploy">—</div>
+          <div class="cell-note" id="note-nondeploy">—</div>
+        </div>
+        <div class="consequence-cell" id="cell-equity">
+          <div class="cell-label">State Equity Programs</div>
+          <div class="cell-status" id="status-equity">—</div>
+          <div class="cell-note" id="note-equity">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: AMBIGUITY SPECTRUM ── -->
+<section id="ambiguity">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">03</span> The Ambiguity</div>
+    <h2>What "grandfathered" actually means is unclear.</h2>
+    <p>The proposed rule states it will not impact "existing fixed amount awards or subawards issued prior to the effective date." That sentence does less work than it appears to. Each provision below sits somewhere on a spectrum from clearly protected to clearly subject to the new rules — and the middle is wide.</p>
+
+    <div class="marker-legend">
+      <span class="marker-legend-item"><span class="marker-dot" style="background:var(--amber)"></span>Broad interpretation (only truly new awards affected)</span>
+      <span class="marker-legend-item"><span class="marker-dot" style="background:var(--red)"></span>Narrow interpretation (amendments, novations, queued actions affected)</span>
+    </div>
+
+    <div class="spectrum-legend-row" style="padding: 0 0 0 212px;">
+      <span>← Clearly grandfathered</span>
+      <span>Contested</span>
+      <span>Clearly new →</span>
+    </div>
+
+    <div class="spectrum-table">
+      <div class="spectrum-row header-row">
+        <span class="spectrum-header-label">Provision / Action Type</span>
+        <span class="spectrum-header-label">Grandfathering spectrum</span>
+        <span class="spectrum-header-label">Interpretation</span>
+      </div>
+
+      <!-- Rows injected by JS -->
+    </div>
+
+    <p style="font-size:13px; color:var(--text3); margin-top:1rem;">The narrow interpretation derives from the proposed rule's inclusion of "amendments" in its effective-date language. The broad interpretation assumes OMB intends to protect all actions predating October 1. Neither has been confirmed by OMB. <a href="https://www.regulations.gov/docket/OMB-2026-0034" target="_blank">Comments requesting clarification close July 13.</a></p>
+  </div>
+</section>
+
+<!-- ── SECTION 4: THREE TRACKS EXPLAINED ── -->
+<section id="tracks">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">04</span> The Three Tracks</div>
+    <h2>Each process, explained.</h2>
+
+    <div class="explainer-grid">
+      <div class="explainer-card">
+        <span class="card-track red">Track A — OMB</span>
+        <div class="card-title">The largest rewrite of federal grant rules since 2013</div>
+        <div class="card-body">
+          <p>On May 29, OMB published a proposed rule rewriting <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200" target="_blank">2 CFR Part 200</a> — the Uniform Guidance that sits beneath every federal grant. Five provisions carry direct BEAD exposure.</p>
+          <p><strong>Expanded termination authority.</strong> Awards can be ended if they "no longer effectuate program goals, federal agency priorities, or the national interest." BEAD GTC §44 already incorporates <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">§200.340(a)</a>. This expansion strengthens that hook without amending any grant agreement.</p>
+          <p><strong>FASA elimination.</strong> Fixed-amount subawards — the payment vehicle underpinning every BEAD subgrant — would be prohibited. ISPs expecting milestone payments would shift to cost-reimbursable models.</p>
+          <p><strong>Political pre-clearance.</strong> Every new discretionary award requires a senior appointee to certify it advances the President's policy priorities. For nondeployment awards still awaiting the 2RPN, this is an additional chokepoint with no procedural clock.</p>
+        </div>
+      </div>
+
+      <div class="explainer-card">
+        <span class="card-track amber">Track B — NIST</span>
+        <div class="card-title">The grants office that runs BEAD is changing systems in October</div>
+        <div class="card-body">
+          <p>NTIA's grants are administered by NIST's Financial Assistance Agreements Management Office (FAAMO). Every Notice of Award, every amendment, every budget modification for every BEAD eligible entity flows through this office.</p>
+          <p>The Department of Commerce's <a href="https://www.commerce.gov/ocio/programs/gems/about-gems" target="_blank">Grants Enterprise Management Solution (GEMS)</a> program is migrating NIST from legacy systems to the NIH eRA Federal Shared Services platform. <strong>Scheduled go-live: October 2026.</strong></p>
+          <p>During active cutover, grant actions are typically frozen — the system cannot record what it cannot process. NOAA completed a comparable migration in FY2024 over multiple phases. NIST has not publicly announced a blackout window start date.</p>
+          <p>If NIST FAAMO cannot issue an NOA amendment during blackout, the instrument hasn't been issued — regardless of when the action was initiated.</p>
+        </div>
+      </div>
+
+      <div class="explainer-card">
+        <span class="card-track blue">Track C — BEAD 2RPN</span>
+        <div class="card-title">$21 billion in nondeployment awards with no publication date</div>
+        <div class="card-body">
+          <p>NTIA's Second Restructuring Policy Notice — governing $21 billion in BEAD savings — was expected in Q1 2026. It has not published as of June 3, 2026.</p>
+          <p>Every nondeployment award is a new discretionary award. Under the proposed OMB rule, each one requires senior political appointee pre-clearance certifying alignment with the President's policy priorities. There is no procedural clock on that certification. There is no requirement to explain a non-certification.</p>
+          <p>If the 2RPN publishes before October 1, nondeployment awards can be structured under the current framework. If it publishes after, those awards enter a materially different regulatory environment — DEI prohibitions, E-Verify mandates, and expanded termination authority baked in as default terms.</p>
+          <p>The timeline is not academic. <strong>119 days separate today from October 1.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: FASA EXPLAINED ── -->
+<section id="fasa">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">05</span> The FASA Problem</div>
+    <h2>The payment vehicle BEAD runs on may not survive.</h2>
+    <p>A Fixed Amount Sub-Award (FASA) is a grant payment structure where a subgrantee gets paid when they hit defined milestones — "network deployed to X locations," "construction complete" — rather than by submitting invoices and waiting for cost reimbursement. BEAD runs almost entirely on FASAs because NTIA obtained an OMB exception to <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">2 CFR §200.333</a> at program design.</p>
+
+    <h3>Why FASAs matter for rural ISPs</h3>
+    <p>A rural electric cooperative with a $4 million BEAD subgrant does not have $4 million in working capital. It builds the network, hits the milestone, and gets reimbursed. Under a cost-reimbursable model, it submits invoices, waits for state review, waits for federal approval, and carries the financing gap. For a co-op operating on thin margins in a high-cost area, that gap is not administrative inconvenience — it is a solvency question.</p>
+
+    <h3>What the grandfathering clause doesn't protect</h3>
+    <p>The proposed rule states it will not impact "existing fixed amount awards or subawards issued prior to the effective date." But the proposed rule also explicitly applies to <strong>"new awards and amendments issued after the effective date."</strong> That word "amendments" is not incidental.</p>
+
+    <div class="provisions-list" style="margin: 1.5rem 0;">
+      <div class="provision-item">
+        <span class="provision-severity sev-critical"></span>
+        <div class="provision-content">
+          <div class="provision-name">NOA Amendments</div>
+          <div class="provision-desc">Every budget modification, scope change, subgrantee substitution, and period of performance extension flows through an amended Notice of Award. If amendments issued after October 1 trigger the FASA prohibition, no state with an active award is fully grandfathered — because every active award will require at least one more amendment.</div>
+        </div>
+        <span class="provision-ref">§200.333</span>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-critical"></span>
+        <div class="provision-content">
+          <div class="provision-name">Novation Agreements</div>
+          <div class="provision-desc">When a subgrantee undergoes a merger or acquisition, a novation agreement substitutes the new legal entity. A novation executes after October 1 even if the underlying project predates it. Is that a "new" subaward? The proposed rule doesn't say.</div>
+        </div>
+        <span class="provision-ref">§200.308</span>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-high"></span>
+        <div class="provision-content">
+          <div class="provision-name">Unexecuted Subgrant Agreements</div>
+          <div class="provision-desc">A subgrant agreement signed after October 1 — even for a project in an approved Final Proposal — may be a "new" fixed-amount subaward under the plain text. States mid-procurement cannot execute hundreds of complex subgrant agreements before October 1.</div>
+        </div>
+        <span class="provision-ref">§200.333</span>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-high"></span>
+        <div class="provision-content">
+          <div class="provision-name">System Migration Queue</div>
+          <div class="provision-desc">Actions initiated before October 1 but not formally issued until after — because NIST FAAMO was in blackout — may not qualify as "issued prior to the effective date." The regulatory clock runs on issuance, not initiation.</div>
+        </div>
+        <span class="provision-ref">NIST GEMS</span>
+      </div>
+    </div>
+
+    <p>These are not edge cases. They are the operational reality of a program in active execution across 56 eligible entities with thousands of subgrant agreements in various stages of negotiation, execution, and amendment.</p>
+  </div>
+</section>
+
+<!-- ── SECTION 6: ALL FIVE PROVISIONS ── -->
+<section id="provisions">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">06</span> The Five Provisions</div>
+    <h2>What the proposed rule actually does.</h2>
+
+    <div class="provisions-list">
+      <div class="provision-item">
+        <span class="provision-severity sev-critical"></span>
+        <div class="provision-content">
+          <div class="provision-name">Expanded termination authority</div>
+          <div class="provision-desc">Awards can be ended if they "no longer effectuate program goals, federal agency priorities, or the national interest" — modeled on FAR termination for convenience. BEAD GTC §44 already incorporates §200.340(a). This expansion requires no GTC amendment to take effect on existing awards.</div>
+        </div>
+        <a class="provision-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">§200.340</a>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-critical"></span>
+        <div class="provision-content">
+          <div class="provision-name">Elimination of fixed-amount awards and subawards</div>
+          <div class="provision-desc">OMB proposes to prohibit FASAs, finding they "can limit transparency and hinder effective oversight." The entire BEAD subgrant payment architecture rests on an OMB exception to this provision. Eliminating the vehicle mid-program forces a shift to cost-reimbursable models for all new and amended instruments.</div>
+        </div>
+        <a class="provision-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">§200.333</a>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-high"></span>
+        <div class="provision-content">
+          <div class="provision-name">DEI prohibition embedded in award terms</div>
+          <div class="provision-desc">Federal awards may not "fund, promote, encourage, subsidize, or facilitate" DEI policies — as a standard award term, not an executive order. States with equity-framed subgrant criteria or community benefit provisions face a new compliance surface. A finalized regulation is harder to enjoin than an executive order.</div>
+        </div>
+        <span class="provision-ref">Award terms</span>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-high"></span>
+        <div class="provision-content">
+          <div class="provision-name">Mandatory E-Verify for all recipients and subrecipients</div>
+          <div class="provision-desc">All recipients and employees must participate in DHS E-Verify. BEAD subgrantees include rural electric co-ops, municipal utilities, Tribal enterprises, and small regional ISPs — most of whom have no federal workforce verification infrastructure. Compliance liability flows upstream to state eligible entities.</div>
+        </div>
+        <a class="provision-ref" href="https://www.e-verify.dhs.gov/" target="_blank">E-Verify</a>
+      </div>
+      <div class="provision-item">
+        <span class="provision-severity sev-high"></span>
+        <div class="provision-content">
+          <div class="provision-name">Political pre-clearance for new discretionary awards</div>
+          <div class="provision-desc">Every new discretionary award requires a senior political appointee to certify it advances the President's policy priorities before issuance. No procedural clock. No requirement to explain non-certification. For nondeployment awards still pending the 2RPN, this is a pocket veto with paperwork.</div>
+        </div>
+        <a class="provision-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-C/section-200.205" target="_blank">§200.205(b)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 7: CTA ── -->
+<section id="comment">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">07</span> The Action</div>
+    <h2>The comment period is the only leverage point before October 1.</h2>
+    <p>Public comment on a proposed rule is not symbolic. OMB must respond to substantive comments in the final rule. Well-documented comments create an administrative record that supports judicial review if the rule is challenged. States, eligible entities, subgrantees, and their counsel all have standing to comment.</p>
+
+    <div class="cta-block">
+      <div class="cta-deadline">July 13, 2026</div>
+      <div class="cta-label">Comment deadline — Docket OMB-2026-0034</div>
+      <a class="cta-link" href="https://www.regulations.gov/docket/OMB-2026-0034" target="_blank">Submit a comment on Regulations.gov →</a>
+      <div class="cta-items">
+        <div class="cta-item"><span class="cta-item-num">01</span><span>Request clarification on whether NOA amendments issued after October 1 trigger the FASA prohibition on pre-existing awards.</span></div>
+        <div class="cta-item"><span class="cta-item-num">02</span><span>Request clarification on whether subgrant agreements executed after October 1 for projects in pre-effective-date Final Proposals constitute "new" subawards.</span></div>
+        <div class="cta-item"><span class="cta-item-num">03</span><span>Request a transition framework for grant actions initiated before October 1 but not formally issued due to system migration blackout at NIST FAAMO.</span></div>
+        <div class="cta-item"><span class="cta-item-num">04</span><span>Document the E-Verify compliance burden on non-traditional subgrantee types (co-ops, municipal utilities, Tribal enterprises) with specificity.</span></div>
+        <div class="cta-item"><span class="cta-item-num">05</span><span>Challenge the expanded termination standard's application to in-flight awards without amendment — argue this constitutes retroactive rulemaking.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 8: SOURCES ── -->
+<section id="sources">
+  <div class="container fade-in">
+    <div class="section-label"><span class="section-num">08</span> Primary Sources</div>
+    <h2>Everything linked, nothing paraphrased from memory.</h2>
+
+    <div class="sources-grid">
+      <div class="source-item">
+        <div class="source-type">Proposed Rule</div>
+        <a class="source-link" href="https://www.federalregister.gov/documents/2026/05/29/2026-10817/regulation-for-federal-financial-assistance" target="_blank">Federal Register — 2026-10817<br>Regulation for Federal Financial Assistance</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">Comment Docket</div>
+        <a class="source-link" href="https://www.regulations.gov/docket/OMB-2026-0034" target="_blank">Regulations.gov<br>Docket OMB-2026-0034</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">Current Regulation</div>
+        <a class="source-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200" target="_blank">eCFR — 2 CFR Part 200<br>Uniform Guidance (current text)</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">Termination Authority</div>
+        <a class="source-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">eCFR — §200.340<br>Termination (current text)</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">Fixed-Amount Awards</div>
+        <a class="source-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">eCFR — §200.333<br>Fixed-amount subawards (current text)</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">NIST Migration</div>
+        <a class="source-link" href="https://www.commerce.gov/ocio/programs/gems/about-gems" target="_blank">Commerce GEMS Program<br>About Grants Enterprise Management Solution</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">NIST Grants Office</div>
+        <a class="source-link" href="https://www.nist.gov/oaam/financial-assistance-agreements-management-office" target="_blank">NIST FAAMO<br>Financial Assistance Agreements Management Office</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">Pre-Award Review</div>
+        <a class="source-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-C/section-200.205" target="_blank">eCFR — §200.205(b)<br>Pre-award review (proposed political pre-clearance)</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">E-Verify</div>
+        <a class="source-link" href="https://www.e-verify.dhs.gov/" target="_blank">DHS E-Verify Program</a>
+      </div>
+      <div class="source-item">
+        <div class="source-type">BEAD GTCs</div>
+        <a class="source-link" href="https://broadbandusa.ntia.gov/sites/default/files/2025-11/bead-gtcs.pdf" target="_blank">BEAD Grant Terms and Conditions<br>November 2025 — GTC §44 Termination</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-text">deuslexxmachina.github.io/UniformGuidanceWatch — Published June 3, 2026</span>
+    <span class="footer-text">Analysis: Dr. Alexis Schrubbe — <a href="https://github.com/DeusLexxMachina/UniformGuidanceWatch" target="_blank" style="color:var(--text3); border-color:var(--border);">View on GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+// ── STATE ──
+const state = { rpn: 'before', blackout: '2w', grandfather: 'narrow' };
+
+// ── TOGGLE LOGIC ──
+function setToggle(group, val, btn) {
+  state[group] = val;
+  // Update button styles
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(b => {
+    b.className = 'toggle-btn';
+  });
+  const colorMap = { rpn: 'blue', blackout: 'amber', grandfather: 'red' };
+  btn.className = `toggle-btn active-${colorMap[group]}`;
+  updateConsequences();
+}
+
+// ── CONSEQUENCE DATA ──
+const consequences = {
+  // [rpn][blackout][grandfather] — all combos for 4 cells
+  getState() {
+    const { rpn, blackout, grandfather } = state;
+
+    // Deploy awards
+    let deploy, fasa, nondeploy, equity;
+
+    // FASA
+    if (grandfather === 'broad') {
+      if (blackout === '6w') {
+        fasa = { s: 'contested', label: 'Contested', note: 'Queued actions may slip past Oct 1 in blackout — broad interp helps but system gap creates risk.' };
+      } else {
+        fasa = { s: 'safe', label: 'Protected (broad)', note: 'Existing FASAs likely grandfathered. Unexecuted subgrant agreements remain at risk.' };
+      }
+    } else {
+      fasa = { s: 'blocked', label: 'Significant risk', note: 'Amendments = new instruments. Any NOA amendment or unexecuted subgrant after Oct 1 may be prohibited as FASA.' };
+    }
+
+    // Deploy
+    if (grandfather === 'broad' && blackout !== '6w') {
+      deploy = { s: 'safe', label: 'Likely protected', note: 'Existing awards grandfathered under broad interpretation. Termination authority expansion still applies.' };
+    } else if (grandfather === 'narrow' && blackout === '6w') {
+      deploy = { s: 'blocked', label: 'High exposure', note: 'Termination expansion applies immediately. Blackout delays amendments into new framework. Narrow interp captures modifications.' };
+    } else {
+      deploy = { s: 'contested', label: 'Contested', note: 'Termination authority applies regardless. Scope of amendment exposure depends on OMB interpretation not yet given.' };
+    }
+
+    // Nondeploy
+    if (rpn === 'before') {
+      if (blackout === '6w') {
+        nondeploy = { s: 'contested', label: 'Contested', note: '2RPN before Oct 1 helps — but if awards can\'t process in blackout, they issue in new framework regardless.' };
+      } else {
+        nondeploy = { s: 'safe', label: 'Current framework', note: '2RPN publishes before Oct 1. Awards structured and processed under current rules. Pre-clearance requirement does not apply.' };
+      }
+    } else if (rpn === 'after') {
+      nondeploy = { s: 'blocked', label: 'New framework applies', note: 'Every nondeployment award requires political pre-clearance. DEI prohibition, E-Verify, expanded termination baked into award terms.' };
+    } else {
+      if (blackout === '6w') {
+        nondeploy = { s: 'blocked', label: 'Unknown / high risk', note: '2RPN date unknown. 6-week blackout plus Oct 1 deadline makes pre-framework issuance operationally implausible.' };
+      } else {
+        nondeploy = { s: 'contested', label: 'Unknown', note: '2RPN date unknown. If it publishes before Oct 1 and system can process, current framework applies. Otherwise blocked.' };
+      }
+    }
+
+    // Equity
+    if (grandfather === 'broad') {
+      equity = { s: 'contested', label: 'Monitor closely', note: 'DEI prohibition applies to new awards. Existing equity provisions in executed agreements may survive — new subgrant agreements at risk.' };
+    } else {
+      equity = { s: 'blocked', label: 'Significant exposure', note: 'DEI prohibition embedded in all post-Oct-1 amendments. States with equity-framed criteria face compliance review on every new instrument.' };
+    }
+
+    return { deploy, fasa, nondeploy, equity };
+  }
+};
+
+function updateConsequences() {
+  const { deploy, fasa, nondeploy, equity } = consequences.getState();
+  const cells = { deploy, fasa, nondeploy, equity };
+
+  Object.entries(cells).forEach(([key, data]) => {
+    const statusEl = document.getElementById(`status-${key}`);
+    const noteEl = document.getElementById(`note-${key}`);
+    const cellEl = document.getElementById(`cell-${key}`);
+
+    statusEl.className = `cell-status status-${data.s}`;
+    statusEl.textContent = data.label;
+    noteEl.textContent = data.note;
+    noteEl.className = `cell-note`;
+
+    cellEl.className = `consequence-cell cell-${data.s}`;
+  });
+}
+
+// Init
+updateConsequences();
+
+// ── SPECTRUM DATA ──
+const spectrumItems = [
+  { label: 'Existing executed FASAs', broad: 5, narrow: 15, broadLabel: 'Protected', narrowLabel: 'Protected' },
+  { label: 'NOA amendments (post Oct 1)', broad: 40, narrow: 75, broadLabel: 'Likely OK', narrowLabel: 'At risk' },
+  { label: 'Unexecuted subgrant agreements', broad: 55, narrow: 80, broadLabel: 'Contested', narrowLabel: 'At risk' },
+  { label: 'Novation agreements', broad: 60, narrow: 82, broadLabel: 'Contested', narrowLabel: 'At risk' },
+  { label: 'Queue during blackout', broad: 65, narrow: 85, broadLabel: 'Contested', narrowLabel: 'High risk' },
+  { label: 'Nondeployment awards (new)', broad: 85, narrow: 92, broadLabel: 'New award', narrowLabel: 'New award' },
+];
+
+function buildSpectrum() {
+  const table = document.querySelector('.spectrum-table');
+  spectrumItems.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'spectrum-row';
+    row.innerHTML = `
+      <span class="spectrum-row-label">${item.label}</span>
+      <div class="spectrum-bar-wrap">
+        <div class="spectrum-track"></div>
+        <div class="spectrum-marker broad" style="left:${item.broad}%" title="Broad interpretation: ${item.broadLabel}"></div>
+        <div class="spectrum-marker narrow" style="left:${item.narrow}%" title="Narrow interpretation: ${item.narrowLabel}"></div>
+      </div>
+      <span class="spectrum-interp">${item.broadLabel} / ${item.narrowLabel}</span>
+    `;
+    table.appendChild(row);
+  });
+}
+
+buildSpectrum();
+
+// ── TOOLTIP ──
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('[title]').forEach(el => {
+  el.addEventListener('mouseenter', e => {
+    tooltip.textContent = el.getAttribute('title');
+    tooltip.style.opacity = '1';
+  });
+  el.addEventListener('mousemove', e => {
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY - 8) + 'px';
+  });
+  el.addEventListener('mouseleave', () => {
+    tooltip.style.opacity = '0';
+  });
+  el.removeAttribute('title');
+});
+
+// ── SCROLL FADE-IN ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
