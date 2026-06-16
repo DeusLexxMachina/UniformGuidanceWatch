@@ -1,1 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniform Guidance Watch</title>
+<meta name="description" content="The OMB proposed rewrite of 2 CFR Part 200 converges with a NIST grants system migration and a delayed BEAD policy notice on October 1, 2026. This tool maps what that means for $42.5 billion in broadband funding.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   UNIFORM GUIDANCE WATCH -- POLICY BRIEF STYLING
+   Audience: state broadband offices, agency counsel, consultants.
+   Goal: read like a government memo, not a terminal.
+   White ground, black text, serif body, sans labels, mono data.
+   Color is functional only -- risk coding, never decoration.
+   ============================================================ */
 
+:root {
+  /* ground + ink */
+  --bg:        #ffffff;
+  --bg-alt:    #f7f7f5;   /* sectioned panels, table headers */
+  --bg-sunk:   #f0f0ee;   /* deeper inset */
+  --ink:       #1a1a1a;   /* primary text */
+  --ink2:      #444444;   /* secondary text */
+  --ink3:      #6b6b6b;   /* tertiary / captions */
+  --ink4:      #8a8a8a;   /* faint labels */
+
+  /* rules */
+  --line:      #d9d9d6;
+  --line2:     #e6e6e3;
+  --line-dark: #bcbcb8;
+
+  /* functional risk colors -- desaturated, print-safe */
+  --red:       #b3261e;   /* critical / OMB track / block */
+  --red-bg:    #fbeae9;
+  --red-line:  #e6b8b4;
+  --blue:      #1f5b9e;   /* continuation / NIST track */
+  --blue-bg:   #e9f0f8;
+  --blue-line: #b6cce4;
+  --green:     #2e7d4f;   /* safe / BEAD track */
+  --green-bg:  #e8f3ec;
+  --green-line:#b4d6c1;
+  --amber:     #9a6a00;   /* caution / unknown */
+  --amber-bg:  #fbf3e2;
+  --amber-line:#e4d2a6;
+
+  --link:      #1f5b9e;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- LAYOUT ---- */
+.wrap       { max-width: 820px;  margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+
+section { padding: 3rem 0; border-bottom: 1px solid var(--line2); }
+section:last-of-type { border-bottom: none; }
+
+/* ---- TYPOGRAPHY ---- */
+.display {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin: 1.75rem 0 0.6rem;
+}
+
+p { color: var(--ink2); margin-bottom: 1rem; }
+p:last-child { margin-bottom: 0; }
+p strong, .prose strong { color: var(--ink); font-weight: 600; }
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--blue-line);
+  transition: text-decoration-color 0.15s;
+}
+a:hover { text-decoration-color: var(--blue); }
+
+/* section label */
+.sec-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.sec-num {
+  color: var(--red);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+}
+.sec-label::after { content:''; flex:1; height:1px; background:var(--line); }
+
+/* ---- HEADER ---- */
+header {
+  padding: 3rem 0 2.25rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--bg);
+}
+
+.alert-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--red-line);
+  background: var(--red-bg);
+  color: var(--red);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  margin-bottom: 1.5rem;
+}
+.alert-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); flex-shrink: 0;
+}
+
+.hero-sub {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.05rem, 1.9vw, 1.2rem);
+  color: var(--ink2);
+  max-width: 660px;
+  margin: 1.25rem 0 1.75rem;
+  line-height: 1.6;
+}
+.hero-sub strong { color: var(--ink); font-weight: 600; }
+
+.meta-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.85rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink3);
+  border-top: 1px solid var(--line);
+  padding-top: 1.25rem;
+}
+.meta-bar > span { display: flex; flex-direction: column; gap: 0.1rem; }
+.meta-bar .meta-k { font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink4); }
+.meta-bar strong { color: var(--ink); font-weight: 600; font-size: 0.85rem; }
+
+/* ---- PROSE ---- */
+.prose { max-width: 680px; }
+.prose p { color: var(--ink2); margin-bottom: 1.05rem; }
+
+.testimony-block {
+  border-left: 3px solid var(--line-dark);
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin: 1.5rem 0;
+}
+.testimony-block p {
+  font-style: italic;
+  color: var(--ink2);
+  margin: 0;
+}
+.testimony-cite {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-style: normal;
+  color: var(--ink3);
+  margin-top: 0.6rem;
+}
+
+/* ---- CLOCK CARDS ---- */
+.clocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.clock-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--ink);
+  border-radius: 4px;
+  padding: 1.35rem;
+}
+.clock-card.red    { border-top-color: var(--red); }
+.clock-card.blue   { border-top-color: var(--blue); }
+.clock-card.green  { border-top-color: var(--green); }
+
+.clock-track {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.5rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 0.85rem;
+}
+.clock-track.red    { color: var(--red);   background: var(--red-bg);   border: 1px solid var(--red-line); }
+.clock-track.blue   { color: var(--blue);  background: var(--blue-bg);  border: 1px solid var(--blue-line); }
+.clock-track.green  { color: var(--green); background: var(--green-bg); border: 1px solid var(--green-line); }
+
+.clock-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--ink);
+  margin-bottom: 0.7rem;
+  line-height: 1.35;
+}
+
+.clock-body p { color: var(--ink2); font-size: 0.92rem; margin-bottom: 0.6rem; line-height: 1.55; }
+.clock-body strong { color: var(--ink); font-weight: 600; }
+
+.clock-key-date {
+  font-family: 'Inter', sans-serif;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line2);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink4);
+}
+.clock-key-date span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.92rem;
+  display: block;
+  margin-top: 0.25rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--red);
+}
+.clock-key-date span.peri { color: var(--blue); }
+.clock-key-date span.sage { color: var(--green); }
+
+/* ---- UNKNOWNS TABLE ---- */
+.table-scroll { overflow-x: auto; margin-top: 1.5rem; border: 1px solid var(--line); border-radius: 4px; }
+.unknowns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  min-width: 720px;
+}
+.unknowns-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding: 0.7rem 0.85rem;
+  border-bottom: 2px solid var(--line-dark);
+  background: var(--bg-alt);
+  white-space: nowrap;
+}
+.unknowns-table td {
+  padding: 0.8rem 0.85rem;
+  border-bottom: 1px solid var(--line2);
+  vertical-align: top;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+.unknowns-table tr:last-child td { border-bottom: none; }
+.unknowns-table tbody tr:nth-child(even) td { background: var(--bg-alt); }
+.unknowns-table td:first-child { color: var(--ink); font-weight: 600; }
+
+.risk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cdot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.c-crit { background: var(--red); }
+.c-med  { background: var(--amber); }
+.c-low  { background: var(--green); }
+.risk-crit { color: var(--red); }
+.risk-med  { color: var(--amber); }
+.risk-low  { color: var(--green); }
+
+/* ---- VERTICAL TIMELINE ---- */
+.vtl-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 1.75rem;
+}
+
+.vtl-col { background: var(--bg); border-right: 1px solid var(--line2); }
+.vtl-col:last-child { border-right: none; }
+
+.vtl-col-header {
+  font-family: 'Inter', sans-serif;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-alt);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-top: 3px solid var(--ink);
+}
+.vtl-col-header.red    { color: var(--red);   border-top-color: var(--red); }
+.vtl-col-header.blue   { color: var(--blue);  border-top-color: var(--blue); }
+.vtl-col-header.green  { color: var(--green); border-top-color: var(--green); }
+
+.vtl-events { list-style: none; }
+
+.vtl-event {
+  padding: 0.85rem 1rem 0.85rem 1.6rem;
+  border-bottom: 1px solid var(--line2);
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  background: var(--bg);
+}
+.vtl-event:last-child { border-bottom: none; }
+.vtl-event::before {
+  content: '';
+  position: absolute;
+  left: 0.7rem; top: 1.05rem;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--line-dark);
+}
+.vtl-event.red::before    { background: var(--red); }
+.vtl-event.blue::before   { background: var(--blue); }
+.vtl-event.green::before  { background: var(--green); }
+.vtl-event.unknown::before{ background: var(--bg); border: 1.5px dashed var(--amber); }
+
+.vtl-date {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.2rem;
+}
+.vtl-date.red    { color: var(--red); }
+.vtl-date.blue   { color: var(--blue); }
+.vtl-date.green  { color: var(--green); }
+
+.vtl-event-title { color: var(--ink); font-weight: 600; margin-bottom: 0.2rem; }
+.vtl-event-note  { color: var(--ink3); font-size: 0.76rem; line-height: 1.5; }
+
+/* Oct 1 crossbar */
+.vtl-oct1 {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--red-bg);
+  border-top: 2px solid var(--red);
+  border-bottom: 2px solid var(--red);
+}
+.vtl-oct1-cell {
+  padding: 0.7rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--red);
+  border-right: 1px solid var(--red-line);
+}
+.vtl-oct1-cell:last-child { border-right: none; }
+.vtl-oct1-cell small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.68rem;
+  color: var(--red);
+  opacity: 0.8;
+  margin-top: 0.15rem;
+}
+
+.vtl-blackout, .vtl-unknown-band {
+  font-family: 'Inter', sans-serif;
+  padding: 0.7rem 1rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0.5rem 0.7rem 0.85rem;
+}
+.vtl-blackout {
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-line);
+  color: var(--blue);
+}
+.vtl-unknown-band {
+  background: var(--amber-bg);
+  border: 1px dashed var(--amber-line);
+  color: var(--amber);
+}
+
+.vtl-post-red    { background: var(--red-bg); }
+.vtl-post-blue   { background: var(--blue-bg); }
+.vtl-post-green  { background: var(--green-bg); }
+
+/* ---- WHAT-IF ---- */
+.whatif-panel {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-alt);
+  padding: 1.6rem;
+  margin-top: 1.75rem;
+}
+
+.whatif-header {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.4rem;
+}
+
+.toggles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.toggle-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 0.5rem;
+}
+
+.toggle-btn {
+  display: block;
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink2);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+  margin-bottom: 5px;
+  line-height: 1.35;
+  border-radius: 3px;
+}
+.toggle-btn:hover { border-color: var(--line-dark); background: var(--bg-sunk); }
+.toggle-btn.act-green  { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 600; }
+.toggle-btn.act-blue   { background: var(--blue-bg);  border-color: var(--blue);  color: var(--blue);  font-weight: 600; }
+.toggle-btn.act-red    { background: var(--red-bg);   border-color: var(--red);   color: var(--red);   font-weight: 600; }
+
+.consequence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+
+.cq-cell {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line-dark);
+  border-radius: 3px;
+  padding: 1rem 1.1rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cq-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 0.55rem;
+}
+.cq-status {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.45rem;
+  line-height: 1.25;
+}
+.cq-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.79rem;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+
+.s-safe  { color: var(--green); }
+.s-cont  { color: var(--amber); }
+.s-block { color: var(--red); }
+
+.cq-cell.bg-safe  { border-left-color: var(--green); background: var(--green-bg); }
+.cq-cell.bg-cont  { border-left-color: var(--amber); background: var(--amber-bg); }
+.cq-cell.bg-block { border-left-color: var(--red);   background: var(--red-bg); }
+
+/* ---- AMBIGUITY SPECTRUM ---- */
+.spectrum-legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.sp-leg {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink2);
+}
+.sp-dot {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--line-dark);
+}
+
+.sp-axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.4rem;
+  padding: 0 0 0 230px;
+}
+
+.sp-rows {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sp-row {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 1rem;
+  background: var(--bg);
+  padding: 0.7rem 1rem;
+  align-items: center;
+  border-bottom: 1px solid var(--line2);
+}
+.sp-row:last-child { border-bottom: none; }
+.sp-row:nth-child(even) { background: var(--bg-alt); }
+
+.sp-row-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.sp-bar-wrap { position: relative; height: 24px; }
+
+.sp-track {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--green) 0%,
+    var(--amber) 50%,
+    var(--red) 100%
+  );
+  border-radius: 2px;
+  opacity: 0.35;
+}
+
+.sp-marker {
+  position: absolute;
+  top: 50%; transform: translate(-50%,-50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  cursor: default;
+  transition: left 0.4s cubic-bezier(.4,0,.2,1);
+}
+.sp-marker.broad  { background: var(--blue); }
+.sp-marker.narrow { background: var(--red); }
+
+/* ---- PROVISIONS ---- */
+.provisions-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.prov-item {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 1rem;
+  background: var(--bg);
+  padding: 1.1rem 1.25rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line2);
+}
+.prov-item:last-child { border-bottom: none; }
+.prov-sev { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.sev-c { background: var(--red); }
+.sev-h { background: var(--amber); }
+
+.prov-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.prov-desc {
+  font-size: 0.9rem;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+.prov-ref {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink3);
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+/* ---- CTA ---- */
+.cta-block {
+  border: 1px solid var(--red-line);
+  border-top: 4px solid var(--red);
+  background: var(--red-bg);
+  border-radius: 4px;
+  padding: 1.85rem;
+  margin-top: 1.75rem;
+}
+
+.cta-deadline {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.75rem);
+  letter-spacing: -0.02em;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.cta-sublabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--red);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--red);
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+.cta-btn:hover { opacity: 0.9; }
+
+.cta-items {
+  margin-top: 1.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--red-line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.cta-item {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.86rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.cta-num { color: var(--red); flex-shrink: 0; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+
+/* ---- SOURCES ---- */
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+.src-item {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+}
+.src-type {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.35rem;
+}
+.src-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  display: block;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  padding: 1.75rem 0;
+  border-top: 2px solid var(--ink);
+  background: var(--bg-alt);
+}
+.footer-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  color: var(--ink3);
+}
+.footer-inner a { color: var(--ink2); }
+
+/* ---- TOOLTIP ---- */
+.tip {
+  position: fixed;
+  background: var(--ink);
+  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  color: #fff;
+  pointer-events: none;
+  z-index: 9998;
+  max-width: 240px;
+  line-height: 1.45;
+  opacity: 0;
+  transition: opacity 0.12s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* ---- FADE IN ---- */
+.fi { opacity: 0; transform: translateY(8px); transition: opacity 0.45s ease, transform 0.45s ease; }
+.fi.vis { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .fi { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .vtl-wrap  { grid-template-columns: 1fr; }
+  .vtl-col   { border-right: none; border-bottom: 1px solid var(--line2); }
+  .vtl-oct1  { grid-template-columns: 1fr; }
+  .vtl-oct1-cell { border-right: none; border-bottom: 1px solid var(--red-line); }
+  .vtl-oct1-cell:last-child { border-bottom: none; }
+  .sp-row    { grid-template-columns: 1fr; gap: 0.5rem; }
+  .sp-axis   { padding: 0; }
+  .prov-item { grid-template-columns: 12px 1fr; }
+  .prov-ref  { display: none; }
+  .clocks-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- PRINT ---- */
+@media print {
+  body { font-size: 11pt; color: #000; }
+  .fi { opacity: 1; transform: none; }
+  a { color: #000; text-decoration: underline; }
+  section { padding: 1rem 0; border-bottom: 1px solid #ccc; break-inside: avoid; }
+  .cta-btn { display: none; }
+  .clock-card, .cq-cell, .prov-item, .src-item, .vtl-wrap { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="tip" id="tip"></div>
+
+<!-- HEADER -->
+<header>
+<div class="wrap">
+  <div class="alert-strip">
+    <span class="alert-dot"></span>
+    Regulatory Alert &nbsp;|&nbsp; Comment Deadline July 13, 2026
+  </div>
+  <div class="display">Three clocks are running.</div>
+  <p class="hero-sub">
+    If you hold a BEAD award, have subgrant agreements in negotiation, have not had your final proposal approved yet, or are waiting on the 2RPN, <strong>this affects you directly.</strong> You have until July 13 to comment.
+  </p>
+  <div class="meta-bar">
+    <span><span class="meta-k">OMB proposed rule</span><strong>May 29, 2026</strong></span>
+    <span><span class="meta-k">Comment deadline</span><strong>July 13, 2026</strong></span>
+    <span><span class="meta-k">Proposed effective date</span><strong>October 1, 2026</strong></span>
+    <span><span class="meta-k">Docket</span><strong>OMB-2026-0034</strong></span>
+    <span><span class="meta-k">Published</span><strong>June 3, 2026</strong></span>
+  </div>
+</div>
+</header>
+
+<!-- 01: WHY SBOs SHOULD CARE -->
+<section id="why">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">01</span> Why State Broadband Offices Should Care</div>
+  <h2>The ground rules are changing. Mid-game.</h2>
+  <div class="prose">
+    <p>On May 29, 2026, the Office of Management and Budget published a proposed rule rewriting <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200" target="_blank">2 CFR Part 200</a>, the Uniform Guidance. This is the foundational regulatory layer that sits beneath every federal grant award in the United States, including BEAD. It is not a BEAD-specific rule. It is a rewrite of the operating system that BEAD runs on.</p>
+    <p>At stake: the payment structure that every BEAD subgrant agreement relies on (called a Fixed Amount Sub-Award, or FASA, meaning ISPs get paid when they hit milestones rather than waiting for invoice reimbursement), the termination authorities that govern whether your award can be ended mid-stream, and the pre-clearance process that every new award, including the $21 billion in nondeployment funds, must now pass through before it can be issued.</p>
+    <p>The proposed rule would also embed anti-DEI requirements directly into award terms as binding regulation, not executive order, and mandate that all subgrantees including rural electric cooperatives, municipal utilities, and Tribal enterprises participate in the federal E-Verify employment verification system. The administering grants office for BEAD (NIST's Financial Assistance Agreements Management Office, or FAAMO, which processes every Notice of Award and amendment) is simultaneously migrating to a new software system with an expected go-live date of October 2026.</p>
+    <div class="testimony-block">
+      <p>These separate but interrelated timelines, the NIST GEMS system blackout, the prolonged silence on AI guidance and the 2RPN, and the unresolved implementation status of states that have not yet received final proposal approval, were already a problem before May 29. Secretary Lutnick stated repeatedly before the Senate Appropriations Committee on April 22, 2026, that the administration would have a plan for the $21 billion in nondeployment funds within two months. That deadline has now lapsed. The OMB rulemaking, if adopted at the pace this administration has historically moved on regulatory action, lands directly on top of every one of these unresolved threads. That is not a conspiracy. It is a calendar.</p>
+      <div class="testimony-cite"><a href="https://www.youtube.com/watch?v=LsyyO3RAa4c" target="_blank">Senate Appropriations Committee, April 22, 2026 -- Full hearing</a></div>
+    </div>
+    <p>The comment period closes <strong>July 13, 2026.</strong> That is the only available leverage point before the proposed October 1 effective date.</p>
+  </div>
+</div>
+</section>
+
+<!-- 02: THREE CLOCKS -->
+<section id="clocks">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">02</span> The Three Clocks</div>
+  <h2>Each process runs on its own logic. None of them required coordination to produce this result.</h2>
+  <div class="clocks-grid">
+    <div class="clock-card red">
+      <span class="clock-track red">Clock A &nbsp;|&nbsp; OMB</span>
+      <div class="clock-title">The rule that changes the ground rules</div>
+      <div class="clock-body">
+        <p>OMB's proposed rewrite of 2 CFR Part 200 is a government-wide administrative reform touching 41 grantmaking agencies. It is not an NTIA action. NTIA cannot modify it, delay it, or soft-pedal it.</p>
+        <p>Five provisions carry direct BEAD exposure: expanded termination authority, elimination of fixed-amount subawards, DEI prohibition embedded in award terms, mandatory E-Verify, and political pre-clearance for every new discretionary award.</p>
+        <p>The proposed effective date is October 1, 2026. The comment window is 45 days.</p>
+      </div>
+      <div class="clock-key-date">Proposed effective date<span>October 1, 2026</span></div>
+    </div>
+    <div class="clock-card blue">
+      <span class="clock-track blue">Clock B &nbsp;|&nbsp; NIST</span>
+      <div class="clock-title">The system that processes your paperwork is going dark</div>
+      <div class="clock-body">
+        <p>NTIA's grants are administered by NIST's Financial Assistance Agreements Management Office (FAAMO). Every Notice of Award, every amendment, every budget modification for all 56 BEAD eligible entities flows through this office.</p>
+        <p>The Department of Commerce's Grants Enterprise Management Solution (GEMS) program is migrating NIST to the NIH eRA platform. Scheduled go-live: October 2026. The blackout window start date has not been publicly announced.</p>
+        <p>During system cutover, grant actions are frozen. Actions initiated before October 1 but not formally issued because the system was down may not qualify as issued prior to the effective date.</p>
+      </div>
+      <div class="clock-key-date">eRA go-live<span class="peri">October 2026 (blackout start TBD)</span></div>
+    </div>
+    <div class="clock-card green">
+      <span class="clock-track green">Clock C &nbsp;|&nbsp; BEAD</span>
+      <div class="clock-title">$21 billion with no arrival date</div>
+      <div class="clock-body">
+        <p>NTIA's Second Restructuring Policy Notice (2RPN), governing $21 billion in BEAD savings, was expected in Q1 2026. It has not published as of June 3, 2026.</p>
+        <p>Every nondeployment award is a new discretionary award. Under the proposed OMB rule, each one requires senior political appointee pre-clearance. There is no procedural clock on that certification and no requirement to explain a non-certification.</p>
+        <p>States without final proposal approval remain in a holding pattern with no confirmed timeline.</p>
+      </div>
+      <div class="clock-key-date">2RPN publication date<span class="sage">Unknown as of June 3, 2026</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 03: UNKNOWNS -->
+<section id="unknowns">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">03</span> The Glossary of Unknowns</div>
+  <h2>Everything that has not been defined. Stated plainly.</h2>
+  <p style="max-width:680px;">The proposed rule creates significant ambiguity at exactly the points that matter most for programs in active execution. These are the operational questions that states, eligible entities, and their counsel need answered before July 13.</p>
+  <div class="table-scroll">
+  <table class="unknowns-table">
+    <thead>
+      <tr>
+        <th>Unknown</th>
+        <th>What we know</th>
+        <th>What we do not know</th>
+        <th>Why it matters</th>
+        <th>Risk level</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>NIST blackout start date</td>
+        <td>eRA go-live is October 2026</td>
+        <td>When the blackout begins</td>
+        <td>Determines how many queued grant actions get stranded in the transition window</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>High</span></td>
+      </tr>
+      <tr>
+        <td>2RPN publication date</td>
+        <td>Not published as of June 3, 2026. Lutnick's self-imposed two-month deadline has lapsed.</td>
+        <td>Whether it lands before or after October 1</td>
+        <td>Determines which regulatory framework governs $21 billion in nondeployment awards</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>High</span></td>
+      </tr>
+      <tr>
+        <td>Definition of "amendments"</td>
+        <td>Proposed rule explicitly applies to "new awards and amendments issued after the effective date"</td>
+        <td>Whether "amendments" means NOA amendments on existing awards or only new standalone awards</td>
+        <td>If NOA amendments are included, no active BEAD award is fully grandfathered. Every budget modification is a potential trigger.</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>Critical</span></td>
+      </tr>
+      <tr>
+        <td>Novation agreement treatment</td>
+        <td>Novations substitute a new legal entity as subgrantee following mergers or acquisitions</td>
+        <td>Whether a novation executed after October 1 constitutes a "new" subaward</td>
+        <td>Subgrantee corporate changes mid-program are common. A novation could pull an existing FASA into the prohibition.</td>
+        <td><span class="risk-pill risk-med"><span class="cdot c-med"></span>Medium</span></td>
+      </tr>
+      <tr>
+        <td>Unexecuted subgrant agreements</td>
+        <td>States are issuing subgrant agreements continuously as subgrantees complete procurement</td>
+        <td>Whether a subgrant signed after October 1 for a pre-October-1 approved project is a "new" subaward</td>
+        <td>Executing hundreds of complex agreements before October 1 is not operationally realistic for most programs</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>High</span></td>
+      </tr>
+      <tr>
+        <td>Blackout queue treatment</td>
+        <td>Grant actions initiated before October 1 may not be processable during NIST migration</td>
+        <td>Whether actions initiated but not formally issued during blackout are grandfathered</td>
+        <td>Regulatory effective dates attach to issuance, not initiation. If the system is down, the instrument has not been issued.</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>Critical</span></td>
+      </tr>
+      <tr>
+        <td>Pre-clearance process</td>
+        <td>Every new discretionary award requires senior political appointee certification</td>
+        <td>Timeline, criteria, appeal rights, and consequences of non-certification</td>
+        <td>A pocket veto with no procedural clock. Applies to every single nondeployment award.</td>
+        <td><span class="risk-pill risk-crit"><span class="cdot c-crit"></span>Critical</span></td>
+      </tr>
+      <tr>
+        <td>AI guidance and EO 14365</td>
+        <td>EO 14365 requires Commerce to evaluate state AI laws. Multiple internal deadlines have lapsed.</td>
+        <td>Whether AI law compliance will be embedded in the 2RPN, in award terms, or both</td>
+        <td>A second independent conditioning mechanism pointing at the same pool of nondeployment funds</td>
+        <td><span class="risk-pill risk-med"><span class="cdot c-med"></span>Medium</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</section>
+
+<!-- 04: VERTICAL TIMELINE -->
+<section id="timeline">
+<div class="wrap--wide fi">
+  <div class="sec-label"><span class="sec-num">04</span> The Convergence Timeline</div>
+  <h2>What happens, in order, as each clock runs.</h2>
+
+  <div class="vtl-wrap">
+    <div class="vtl-col">
+      <div class="vtl-col-header red">Clock A // OMB Rule</div>
+      <ul class="vtl-events">
+        <li class="vtl-event red">
+          <div class="vtl-date red">May 29, 2026</div>
+          <div class="vtl-event-title">Proposed rule published</div>
+          <div class="vtl-event-note">Federal Register docket 2026-10817. Largest revision to Uniform Guidance since 2013.</div>
+        </li>
+        <li class="vtl-event red">
+          <div class="vtl-date red">July 13, 2026</div>
+          <div class="vtl-event-title">Comment period closes</div>
+          <div class="vtl-event-note">45-day window. Only opportunity for public input before finalization.</div>
+        </li>
+        <li class="vtl-event unknown">
+          <div class="vtl-date">July 14 -- September 30</div>
+          <div class="vtl-event-title">OMB review and finalization</div>
+          <div class="vtl-event-note">79 days. Final rule could publish with minimal comment response on this administration's historical timeline.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="vtl-col">
+      <div class="vtl-col-header blue">Clock B // NIST GEMS</div>
+      <ul class="vtl-events">
+        <li class="vtl-event blue">
+          <div class="vtl-date blue">FY2024 precedent</div>
+          <div class="vtl-event-title">NOAA completed eRA migration</div>
+          <div class="vtl-event-note">Phased over most of FY2024. Required blackout windows for cutover. NIST is next in sequence.</div>
+        </li>
+        <li class="vtl-event unknown">
+          <div class="vtl-date">Date unknown</div>
+          <div class="vtl-event-title">NIST blackout begins</div>
+          <div class="vtl-event-note">No public announcement. Estimated 4-6 weeks based on NOAA precedent. All BEAD grant actions freeze.</div>
+        </li>
+        <div class="vtl-blackout">BLACKOUT ZONE // NOA amendments, budget modifications, scope changes, subgrant approvals: all frozen. Actions queued here are not formally issued.</div>
+      </ul>
+    </div>
+
+    <div class="vtl-col">
+      <div class="vtl-col-header green">Clock C // BEAD 2RPN</div>
+      <ul class="vtl-events">
+        <li class="vtl-event unknown">
+          <div class="vtl-date">Q1 2026 (expected)</div>
+          <div class="vtl-event-title">2RPN expected -- did not publish</div>
+          <div class="vtl-event-note">No explanation provided. No revised timeline given.</div>
+        </li>
+        <li class="vtl-event red">
+          <div class="vtl-date red">April 22, 2026</div>
+          <div class="vtl-event-title">Lutnick: "Two months"</div>
+          <div class="vtl-event-note">Senate testimony: "Over the next two months we will have our plan." Self-imposed deadline: approximately June 2026. Now lapsed.</div>
+        </li>
+        <li class="vtl-event unknown">
+          <div class="vtl-date">June 3, 2026</div>
+          <div class="vtl-event-title">2RPN still not published</div>
+          <div class="vtl-event-note">As of this writing. No new public timeline provided.</div>
+        </li>
+        <div class="vtl-unknown-band">UNKNOWN WINDOW // 2RPN could publish before or after October 1. The difference determines which regulatory framework governs $21 billion in nondeployment awards.</div>
+      </ul>
+    </div>
+
+    <!-- OCT 1 CROSSBAR -->
+    <div class="vtl-oct1">
+      <div class="vtl-oct1-cell">October 1, 2026<small>OMB rule takes effect -- new framework</small></div>
+      <div class="vtl-oct1-cell">October 2026<small>NIST eRA go-live -- system returns</small></div>
+      <div class="vtl-oct1-cell">?<small>2RPN status unknown -- awards in limbo</small></div>
+    </div>
+
+    <!-- POST OCT 1 -->
+    <div class="vtl-col vtl-post-red">
+      <ul class="vtl-events">
+        <li class="vtl-event red">
+          <div class="vtl-date red">Post October 1</div>
+          <div class="vtl-event-title">All new awards under new rules</div>
+          <div class="vtl-event-note">DEI prohibition, E-Verify, political pre-clearance, expanded termination. Grandfathering clause contested.</div>
+        </li>
+      </ul>
+    </div>
+    <div class="vtl-col vtl-post-blue">
+      <ul class="vtl-events">
+        <li class="vtl-event blue">
+          <div class="vtl-date blue">Post October 1</div>
+          <div class="vtl-event-title">Queued actions process in new environment</div>
+          <div class="vtl-event-note">Actions stranded in blackout may be treated as new awards under narrow reading of grandfathering clause.</div>
+        </li>
+      </ul>
+    </div>
+    <div class="vtl-col vtl-post-green">
+      <ul class="vtl-events">
+        <li class="vtl-event green">
+          <div class="vtl-date green">If 2RPN publishes post Oct 1</div>
+          <div class="vtl-event-title">$21B enters new framework</div>
+          <div class="vtl-event-note">Every nondeployment award requires political pre-clearance. DEI prohibition and E-Verify apply as default terms.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 05: WHAT-IF -->
+<section id="whatif">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">05</span> What-If</div>
+  <h2>Adjust the variables. See the consequences.</h2>
+  <p style="max-width:680px;">The three clocks interact differently depending on timing. Toggle the variables below to update the consequence state for each category of BEAD activity.</p>
+
+  <div class="whatif-panel">
+    <div class="whatif-header">Interactive scenario model // adjust toggles to update consequence state</div>
+    <div class="toggles-grid">
+      <div>
+        <div class="toggle-label">2RPN publication timing</div>
+        <button class="toggle-btn act-green"      data-g="rpn" data-v="before"  onclick="tog('rpn','before',this)">Before October 1</button>
+        <button class="toggle-btn"                data-g="rpn" data-v="after"   onclick="tog('rpn','after',this)">After October 1</button>
+        <button class="toggle-btn"                data-g="rpn" data-v="unknown" onclick="tog('rpn','unknown',this)">Unknown / not yet issued</button>
+      </div>
+      <div>
+        <div class="toggle-label">NIST blackout duration</div>
+        <button class="toggle-btn act-blue"       data-g="bo" data-v="2w" onclick="tog('bo','2w',this)">~2 weeks</button>
+        <button class="toggle-btn"               data-g="bo" data-v="4w" onclick="tog('bo','4w',this)">~4 weeks</button>
+        <button class="toggle-btn"               data-g="bo" data-v="6w" onclick="tog('bo','6w',this)">~6 weeks (NOAA precedent)</button>
+      </div>
+      <div>
+        <div class="toggle-label">OMB grandfathering scope</div>
+        <button class="toggle-btn"               data-g="gf" data-v="broad"  onclick="tog('gf','broad',this)">Broad -- only truly new awards</button>
+        <button class="toggle-btn act-red"        data-g="gf" data-v="narrow" onclick="tog('gf','narrow',this)">Narrow -- amendments included</button>
+      </div>
+    </div>
+
+    <div class="consequence-grid" id="cq-grid">
+      <div class="cq-cell" id="cq-deploy">
+        <div class="cq-label">Deployment Awards</div>
+        <div class="cq-status" id="cs-deploy">--</div>
+        <div class="cq-note"   id="cn-deploy">--</div>
+      </div>
+      <div class="cq-cell" id="cq-fasa">
+        <div class="cq-label">FASA Subgrants</div>
+        <div class="cq-status" id="cs-fasa">--</div>
+        <div class="cq-note"   id="cn-fasa">--</div>
+      </div>
+      <div class="cq-cell" id="cq-nd">
+        <div class="cq-label">Nondeployment Awards ($21B)</div>
+        <div class="cq-status" id="cs-nd">--</div>
+        <div class="cq-note"   id="cn-nd">--</div>
+      </div>
+      <div class="cq-cell" id="cq-eq">
+        <div class="cq-label">State Equity Programs</div>
+        <div class="cq-status" id="cs-eq">--</div>
+        <div class="cq-note"   id="cn-eq">--</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 06: AMBIGUITY SPECTRUM -->
+<section id="ambiguity">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">06</span> The Ambiguity Spectrum</div>
+  <h2>"Grandfathered" is doing less work than it looks like.</h2>
+  <p style="max-width:680px;">The proposed rule states it will not impact "existing fixed amount awards or subawards issued prior to the effective date." Each provision below sits somewhere between clearly protected and clearly subject to the new rules. The middle is wide.</p>
+  <div class="spectrum-legend">
+    <span class="sp-leg"><span class="sp-dot" style="background:var(--blue)"></span>Broad interpretation (only truly new standalone awards)</span>
+    <span class="sp-leg"><span class="sp-dot" style="background:var(--red)"></span>Narrow interpretation (amendments, novations, queued actions included)</span>
+  </div>
+  <div class="sp-axis"><span>Clearly grandfathered</span><span>Contested</span><span>Clearly new</span></div>
+  <div class="sp-rows" id="sp-rows"></div>
+</div>
+</section>
+
+<!-- 07: FIVE PROVISIONS -->
+<section id="provisions">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">07</span> The Five Provisions</div>
+  <h2>What the proposed rule actually does.</h2>
+  <div class="provisions-list">
+    <div class="prov-item">
+      <span class="prov-sev sev-c"></span>
+      <div>
+        <div class="prov-name">Expanded termination authority</div>
+        <div class="prov-desc">Awards can be ended if they "no longer effectuate program goals, federal agency priorities, or the national interest." BEAD GTC Section 44 already incorporates <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">2 CFR Section 200.340(a)</a>. This expansion requires no GTC amendment to apply to existing awards.</div>
+      </div>
+      <a class="prov-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">&sect; 200.340</a>
+    </div>
+    <div class="prov-item">
+      <span class="prov-sev sev-c"></span>
+      <div>
+        <div class="prov-name">Elimination of fixed-amount awards and subawards (FASAs)</div>
+        <div class="prov-desc">OMB proposes to prohibit FASAs, finding they "can limit transparency and hinder effective oversight." The entire BEAD subgrant payment architecture rests on an OMB exception to <a href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">Section 200.333</a>. Eliminating the vehicle mid-program forces a shift to cost-reimbursable models, reshaping how ISPs get paid and how states manage reimbursement risk.</div>
+      </div>
+      <a class="prov-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">&sect; 200.333</a>
+    </div>
+    <div class="prov-item">
+      <span class="prov-sev sev-h"></span>
+      <div>
+        <div class="prov-name">DEI prohibition embedded in standard award terms</div>
+        <div class="prov-desc">Federal awards may not "fund, promote, encourage, subsidize, or facilitate" DEI policies. This is a regulatory provision, not an executive order. A finalized regulation is harder to enjoin on APA grounds. States with equity-framed subgrant criteria or community benefit provisions face a new compliance surface on every post-October-1 instrument.</div>
+      </div>
+      <span class="prov-ref">Award terms</span>
+    </div>
+    <div class="prov-item">
+      <span class="prov-sev sev-h"></span>
+      <div>
+        <div class="prov-name">Mandatory E-Verify for all recipients and subrecipients</div>
+        <div class="prov-desc">All recipients and their employees must participate in <a href="https://www.e-verify.dhs.gov/" target="_blank">DHS E-Verify</a>. BEAD subgrantees include rural electric cooperatives, municipal utilities, Tribal enterprises, and small regional ISPs, most of whom have no existing federal workforce verification infrastructure. Compliance liability flows upstream to state eligible entities.</div>
+      </div>
+      <a class="prov-ref" href="https://www.e-verify.dhs.gov/" target="_blank">E-Verify</a>
+    </div>
+    <div class="prov-item">
+      <span class="prov-sev sev-h"></span>
+      <div>
+        <div class="prov-name">Political pre-clearance for every new discretionary award</div>
+        <div class="prov-desc">Every new discretionary award requires a senior political appointee to certify it advances the President's policy priorities before issuance. No procedural clock. No requirement to explain a non-certification. For nondeployment awards still pending the 2RPN, this is a pocket veto with paperwork, applicable to all 56 eligible entities.</div>
+      </div>
+      <a class="prov-ref" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-C/section-200.205" target="_blank">&sect; 200.205(b)</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 08: CTA -->
+<section id="comment">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">08</span> The Action</div>
+  <h2>The comment period is the only leverage point before October 1.</h2>
+  <p style="max-width:680px;">Public comment on a proposed rule is not symbolic. OMB must respond to substantive comments in the final rule. Well-documented comments create an administrative record that supports judicial review if the rule is challenged. States, eligible entities, subgrantees, and their counsel all have standing.</p>
+  <div class="cta-block">
+    <div class="cta-deadline">July 13, 2026</div>
+    <div class="cta-sublabel">Comment deadline &nbsp;|&nbsp; Docket OMB-2026-0034</div>
+    <a class="cta-btn" href="https://www.regulations.gov/docket/OMB-2026-0034" target="_blank">Submit a comment on Regulations.gov</a>
+    <div class="cta-items">
+      <div class="cta-item"><span class="cta-num">01</span><span>Request clarification on whether NOA amendments issued after October 1 trigger the FASA prohibition on pre-existing awards.</span></div>
+      <div class="cta-item"><span class="cta-num">02</span><span>Request clarification on whether subgrant agreements executed after October 1 for projects in pre-effective-date Final Proposals constitute "new" subawards.</span></div>
+      <div class="cta-item"><span class="cta-num">03</span><span>Request a transition framework for grant actions initiated before October 1 but not formally issued due to the NIST FAAMO system migration blackout.</span></div>
+      <div class="cta-item"><span class="cta-num">04</span><span>Document the E-Verify compliance burden on non-traditional subgrantee types with specificity: rural electric cooperatives, municipal utilities, and Tribal enterprises.</span></div>
+      <div class="cta-item"><span class="cta-num">05</span><span>Challenge the expanded termination standard's application to in-flight awards without amendment as retroactive rulemaking inconsistent with the APA.</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 09: SOURCES -->
+<section id="sources">
+<div class="wrap fi">
+  <div class="sec-label"><span class="sec-num">09</span> Primary Sources</div>
+  <h2>Everything linked. Nothing from memory.</h2>
+  <div class="sources-grid">
+    <div class="src-item"><div class="src-type">Proposed Rule</div><a class="src-link" href="https://www.federalregister.gov/documents/2026/05/29/2026-10817/regulation-for-federal-financial-assistance" target="_blank">Federal Register 2026-10817 -- Regulation for Federal Financial Assistance</a></div>
+    <div class="src-item"><div class="src-type">Comment Docket</div><a class="src-link" href="https://www.regulations.gov/docket/OMB-2026-0034" target="_blank">Regulations.gov -- Docket OMB-2026-0034</a></div>
+    <div class="src-item"><div class="src-type">Current Regulation</div><a class="src-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200" target="_blank">eCFR -- 2 CFR Part 200 (Uniform Guidance, current text)</a></div>
+    <div class="src-item"><div class="src-type">Termination</div><a class="src-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.340" target="_blank">eCFR -- Section 200.340 (Termination authority)</a></div>
+    <div class="src-item"><div class="src-type">Fixed-Amount Awards</div><a class="src-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.333" target="_blank">eCFR -- Section 200.333 (Fixed-amount subawards)</a></div>
+    <div class="src-item"><div class="src-type">Pre-Award Review</div><a class="src-link" href="https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-C/section-200.205" target="_blank">eCFR -- Section 200.205(b) (Pre-award political clearance)</a></div>
+    <div class="src-item"><div class="src-type">NIST Migration</div><a class="src-link" href="https://www.commerce.gov/ocio/programs/gems/about-gems" target="_blank">Commerce GEMS Program -- About Grants Enterprise Management Solution</a></div>
+    <div class="src-item"><div class="src-type">NIST Grants Office</div><a class="src-link" href="https://www.nist.gov/oaam/financial-assistance-agreements-management-office" target="_blank">NIST FAAMO -- Financial Assistance Agreements Management Office</a></div>
+    <div class="src-item"><div class="src-type">Senate Testimony</div><a class="src-link" href="https://www.youtube.com/watch?v=LsyyO3RAa4c" target="_blank">Lutnick Senate Appropriations testimony -- April 22, 2026 (Full hearing)</a></div>
+    <div class="src-item"><div class="src-type">BEAD GTCs</div><a class="src-link" href="https://broadbandusa.ntia.gov/sites/default/files/2025-11/bead-gtcs.pdf" target="_blank">BEAD Grant Terms and Conditions -- November 2025 (Section 44 Termination)</a></div>
+    <div class="src-item"><div class="src-type">E-Verify</div><a class="src-link" href="https://www.e-verify.dhs.gov/" target="_blank">DHS E-Verify Program</a></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>deuslexxmachina.github.io/UniformGuidanceWatch -- Published June 3, 2026</span>
+    <span>Analysis: Dr. Alexis Schrubbe &nbsp;|&nbsp; <a href="https://github.com/DeusLexxMachina/UniformGuidanceWatch" target="_blank">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+// STATE
+const S = { rpn:'before', bo:'2w', gf:'narrow' };
+
+// TOGGLES
+function tog(g, v, btn) {
+  S[g] = v;
+  document.querySelectorAll(`[data-g="${g}"]`).forEach(b => b.className = 'toggle-btn');
+  const cm = { rpn:'act-green', bo:'act-blue', gf:'act-red' };
+  btn.className = 'toggle-btn ' + cm[g];
+  updateCQ();
+}
+
+// CONSEQUENCE LOGIC
+function getCQ() {
+  const {rpn, bo, gf} = S;
+  let deploy, fasa, nd, eq;
+
+  fasa = gf === 'broad'
+    ? (bo === '6w'
+        ? {s:'cont',  l:'Contested',         n:'Broad interpretation helps but a 6-week blackout creates real risk of stranding unexecuted agreements past October 1.'}
+        : {s:'safe',  l:'Likely protected',   n:'Existing executed FASAs probably grandfathered. Unexecuted subgrant agreements remain at risk regardless of interpretation.'})
+    : {s:'block', l:'Significant risk',   n:'Narrow interpretation: NOA amendments are new instruments. Any amendment or unexecuted subgrant after October 1 may be prohibited as a FASA.'};
+
+  deploy = (gf === 'broad' && bo !== '6w')
+    ? {s:'safe',  l:'Likely protected',   n:'Existing awards grandfathered under broad interpretation. Expanded termination authority still applies to all active awards regardless.'}
+    : (gf === 'narrow' && bo === '6w')
+    ? {s:'block', l:'High exposure',      n:'Termination expansion applies immediately. Blackout delays amendments into new framework. Narrow interpretation captures all modifications.'}
+    : {s:'cont',  l:'Contested',          n:'Termination authority applies regardless. Scope of amendment exposure depends on OMB interpretation not yet provided.'};
+
+  nd = rpn === 'before'
+    ? (bo === '6w'
+        ? {s:'cont',  l:'Contested',         n:'2RPN before October 1 helps -- but blackout may prevent award processing, pushing issuance into the new framework anyway.'}
+        : {s:'safe',  l:'Current framework', n:'2RPN publishes before October 1. Nondeployment awards structured and processed under current rules. Pre-clearance requirement does not apply.'})
+    : rpn === 'after'
+    ? {s:'block', l:'New framework applies', n:'All nondeployment awards require political pre-clearance. DEI prohibition, E-Verify, and expanded termination baked in as default terms.'}
+    : (bo === '6w'
+        ? {s:'block', l:'Unknown / high risk',n:'2RPN date unknown. 6-week blackout plus October 1 makes pre-framework issuance operationally implausible for most states.'}
+        : {s:'cont',  l:'Unknown',            n:'2RPN date unknown. If it publishes before October 1 and the system can process, current framework applies. Otherwise blocked.'});
+
+  eq = gf === 'broad'
+    ? {s:'cont',  l:'Monitor closely',    n:'DEI prohibition applies to new awards. Existing equity provisions in executed agreements may survive. New subgrant agreements are at risk.'}
+    : {s:'block', l:'Significant exposure',n:'DEI prohibition embedded in all post-October-1 amendments. States with equity-framed criteria face compliance review on every new instrument.'};
+
+  return {deploy, fasa, nd, eq};
+}
+
+function updateCQ() {
+  const r = getCQ();
+  const pairs = [
+    ['deploy', r.deploy], ['fasa', r.fasa], ['nd', r.nd], ['eq', r.eq]
+  ];
+  const bgMap = {safe:'bg-safe', cont:'bg-cont', block:'bg-block'};
+  const sMap  = {safe:'s-safe',  cont:'s-cont',  block:'s-block'};
+  pairs.forEach(([id, d]) => {
+    document.getElementById('cs-'+id).className = 'cq-status ' + sMap[d.s];
+    document.getElementById('cs-'+id).textContent = d.l;
+    document.getElementById('cn-'+id).textContent = d.n;
+    document.getElementById('cq-'+id).className = 'cq-cell ' + bgMap[d.s];
+  });
+}
+updateCQ();
+
+// SPECTRUM
+const spItems = [
+  {l:'Existing executed FASAs',        broad:8,  narrow:14},
+  {l:'NOA amendments (post Oct 1)',     broad:42, narrow:78},
+  {l:'Unexecuted subgrant agreements', broad:54, narrow:82},
+  {l:'Novation agreements',            broad:58, narrow:80},
+  {l:'Blackout-stranded queue',        broad:63, narrow:88},
+  {l:'Nondeployment awards (new)',      broad:85, narrow:92},
+];
+
+const spCont = document.getElementById('sp-rows');
+spItems.forEach(item => {
+  const broadLabel  = item.broad  < 33 ? 'Protected' : item.broad  < 62 ? 'Contested' : 'New award';
+  const narrowLabel = item.narrow < 33 ? 'Protected' : item.narrow < 62 ? 'Contested' : 'At risk / new award';
+  const row = document.createElement('div');
+  row.className = 'sp-row';
+  row.innerHTML = `
+    <div class="sp-row-label">${item.l}</div>
+    <div class="sp-bar-wrap">
+      <div class="sp-track"></div>
+      <div class="sp-marker broad"  style="left:${item.broad}%"  data-tip="Broad interpretation: ${broadLabel}"></div>
+      <div class="sp-marker narrow" style="left:${item.narrow}%" data-tip="Narrow interpretation: ${narrowLabel}"></div>
+    </div>
+  `;
+  spCont.appendChild(row);
+});
+
+// TOOLTIP
+const tip = document.getElementById('tip');
+document.addEventListener('mouseover', e => {
+  const t = e.target.closest('[data-tip]');
+  if (t) { tip.textContent = t.dataset.tip; tip.style.opacity = '1'; }
+  else tip.style.opacity = '0';
+});
+document.addEventListener('mousemove', e => {
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top  = (e.clientY - 8)  + 'px';
+});
+
+// FADE IN ON SCROLL
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
